@@ -1,12 +1,13 @@
 package com.toxicprogrammer.springboot.service;
 
+import com.toxicprogrammer.springboot.dto.UserDto;
 import com.toxicprogrammer.springboot.entity.User;
 
 import java.util.List;
 
 public interface UserService {
 
-    User createUser(User user);
+    UserDto createUser(UserDto user);
 
     User getUserById(Long userId);
 

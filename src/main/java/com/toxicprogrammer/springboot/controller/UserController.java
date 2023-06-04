@@ -1,5 +1,6 @@
 package com.toxicprogrammer.springboot.controller;
 
+import com.toxicprogrammer.springboot.dto.UserDto;
 import com.toxicprogrammer.springboot.entity.User;
 import com.toxicprogrammer.springboot.service.UserService;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,8 @@ public class UserController {
 
 //    Build create User API
     @PostMapping()
-    public ResponseEntity<User> createUser(@RequestBody User user){
-       User savedUser = userService.createUser(user);
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user){
+       UserDto savedUser = userService.createUser(user);
        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
