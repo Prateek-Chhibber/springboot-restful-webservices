@@ -2,6 +2,7 @@ package com.toxicprogrammer.springboot.service.impl;
 
 import com.toxicprogrammer.springboot.dto.UserDto;
 import com.toxicprogrammer.springboot.entity.User;
+import com.toxicprogrammer.springboot.mapper.UserMapper;
 import com.toxicprogrammer.springboot.repository.UserRepository;
 import com.toxicprogrammer.springboot.service.UserService;
 import lombok.AllArgsConstructor;
@@ -21,21 +22,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
 //        Convert UserDto into JPA Entity
-        User user1 = new User(
-                userDto.getId(),
-                userDto.getFirstName(),
-                userDto.getLastName(),
-                userDto.getEmail()
-        );
+        User user1 = UserMapper.mapToUser(userDto);
+
         User savedUser =  userRepository.save(user1);
 
 //        Convert User JPA entity into userDto
-        UserDto savedUserDto = new UserDto(
-                savedUser.getId(),
-                savedUser.getFirstName(),
-                savedUser.getLastName(),
-                savedUser.getEmail()
-        );
+        UserDto savedUserDto = UserMapper.mapToUserDto(savedUser);
 
         return savedUserDto;
     }
