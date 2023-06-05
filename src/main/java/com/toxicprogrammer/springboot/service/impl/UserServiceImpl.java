@@ -2,14 +2,12 @@ package com.toxicprogrammer.springboot.service.impl;
 
 import com.toxicprogrammer.springboot.dto.UserDto;
 import com.toxicprogrammer.springboot.entity.User;
+import com.toxicprogrammer.springboot.exception.EmailAlreadyExistsException;
 import com.toxicprogrammer.springboot.exception.ResourceNotFoundException;
-import com.toxicprogrammer.springboot.mapper.UserMapper;
 import com.toxicprogrammer.springboot.repository.UserRepository;
 import com.toxicprogrammer.springboot.service.UserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +26,12 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserDto userDto) {
 //        Convert UserDto into JPA Entity
 //        User user1 = UserMapper.mapToUser(userDto);
+        Optional<User> optionalUser = userRepository.findByEmail(userDto.getEmail());
+//        To Check If user already exists in db or not
+        if(optionalUser.isPresent()){
+            throw new EmailAlreadyExistsException("Email Already Exists for User");
+        }
+
         User user1 = modelMapper.map(userDto, User.class);
 
         User savedUser =  userRepository.save(user1);
