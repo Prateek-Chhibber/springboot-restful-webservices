@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(User user) {
+    public UserDto updateUser(UserDto user) {
         User existingUser = userRepository.findById(user.getId()).orElseThrow(
                 () -> new ResourceNotFoundException("User","id", user.getId())
         );

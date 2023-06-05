@@ -1,7 +1,6 @@
 package com.toxicprogrammer.springboot.service;
 
 import com.toxicprogrammer.springboot.dto.UserDto;
-import com.toxicprogrammer.springboot.entity.User;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public interface UserService {
 
     List<UserDto> getAllUsers();
 
-    UserDto updateUser(User user);
+    UserDto updateUser(UserDto user);
 
     void deleteUser(Long userId);
 }

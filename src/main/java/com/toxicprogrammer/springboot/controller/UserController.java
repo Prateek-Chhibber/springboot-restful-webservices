@@ -2,16 +2,13 @@ package com.toxicprogrammer.springboot.controller;
 
 import com.toxicprogrammer.springboot.dto.UserDto;
 import com.toxicprogrammer.springboot.entity.User;
-import com.toxicprogrammer.springboot.exception.ErrorDetails;
-import com.toxicprogrammer.springboot.exception.ResourceNotFoundException;
 import com.toxicprogrammer.springboot.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -23,7 +20,7 @@ public class UserController {
 
 //    Build create User API
     @PostMapping()
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user){
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto user){
        UserDto savedUser = userService.createUser(user);
        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
@@ -46,7 +43,7 @@ public class UserController {
 
 //    Build Update User REST API
     @PutMapping("{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long userId, @RequestBody User user){
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long userId, @Valid @RequestBody UserDto user){
         user.setId(userId);
         UserDto  updatedUser = userService.updateUser(user);
         return new ResponseEntity<>(updatedUser,HttpStatus.OK);
