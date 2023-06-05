@@ -2,12 +2,16 @@ package com.toxicprogrammer.springboot.controller;
 
 import com.toxicprogrammer.springboot.dto.UserDto;
 import com.toxicprogrammer.springboot.entity.User;
+import com.toxicprogrammer.springboot.exception.ErrorDetails;
+import com.toxicprogrammer.springboot.exception.ResourceNotFoundException;
 import com.toxicprogrammer.springboot.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -53,6 +57,19 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId){
         userService.deleteUser(userId);
         return new ResponseEntity<>("User Successfully Deleted",HttpStatus.OK);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception,
+                                                                        WebRequest webRequest){
+        ErrorDetails errorDetails = new ErrorDetails(
+                LocalDateTime.now(),
+                exception.getMessage(),
+                webRequest.getDescription(false),
+                "USER_NOT_FOUND"
+        );
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
 }
